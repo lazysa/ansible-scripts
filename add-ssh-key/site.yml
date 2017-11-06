@@ -1,0 +1,15 @@
+---
+# This playbook deploys the whole application stack in this site.  
+
+## Apply common configuration to all hosts
+#- hosts: all
+- hosts: poli-demo
+  remote_user: xu.chen
+  become: yes
+  become_user: root
+  roles:
+  - web
+
+  tags:
+  - web
+

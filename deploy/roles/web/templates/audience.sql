@@ -1,0 +1,1 @@
+ALTER TABLE first_party_tag ADD is_bulk_create TINYINT DEFAULT 0 NULL COMMENT '是否批量建立的标签，0=否，1=是';

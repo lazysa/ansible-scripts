@@ -1,0 +1,97 @@
+# azkaban just etl, etl just azkaban 
+[azkaban:children]
+dev_etl
+qa_etl
+dev_etl
+qa_etl
+pilot_etl
+exxon_etl-clone
+exxon_etl
+artwee_etl
+malogic_etl
+malogic_etl-1
+iresearch_etl
+amersports_etl
+
+[azkaban_weekdown]
+dev_etl
+qa_etl
+
+
+# dev env
+[dev_etl]
+52.80.108.42
+
+[qa_etl]
+54.223.21.110
+
+# pilot env 
+[pilot_web-clone]
+54.222.192.153
+
+[pilot_web]
+54.223.196.202
+
+[pilot_etl]
+54.222.173.228
+
+
+[mc_web]
+172.16.6.2
+
+
+[iresearch_web]
+54.223.218.65
+
+# exxon env 
+# clone
+[exxon_web-clone]
+52.80.91.217
+
+[exxon_etl-clone]
+52.80.107.129
+
+
+[exxon_report-api]
+54.223.139.177:22
+
+[exxon_web]
+52.80.122.7
+
+[exxon_etl]
+52.80.88.210:22
+
+[exxon_report-api]
+54.223.139.177:22
+
+
+# artwee env
+[artwee_report-api]
+54.222.200.138
+
+[artwee_etl]
+52.80.109.48
+
+# iresearch env
+[iresearch_etl]
+52.80.17.135
+
+# malogic env 
+[malogic_etl]
+52.80.61.31
+
+[malogic_etl-1]
+52.80.45.182
+
+[amersports_etl]
+52.80.58.190
+
+# poli env 
+# clone
+[poli-demo-clone]
+52.80.10.74
+
+[poli-demo]
+poli-demo.chiefclouds.com:22
+
+

@@ -1,0 +1,18 @@
+---
+# This playbook contains common plays that will be run on all nodes.
+- name: Create backup dir on server
+  shell: mkdir -p {{ dmp_bak_dir }}/`date '+%F_%H'`/data-suite/analytics
+  #shell: mkdir -p {{ dmp_bak_dir }}/`date '+%F_%H'`/data-suite/analytics
+
+- name: Backup on use file
+  shell: \cp -ar {{ dmp_dir }}/data-suite/analytics/webapi {{ dmp_bak_dir }}/`date '+%F_%H'`/data-suite/analytics/
+
+- name: Create deploy dir on server
+  shell: mkdir -p {{ dmp_deploy_dir }}/`date '+%F_%H'`/data-suite/analytics/webapi
+
+- name: Copy local deploy file to remote server
+  copy: src=analytics-20170920/* dest={{ dmp_deploy_dir }}/20170920_17/data-suite/analytics/webapi/  
+
+- name: Restart webapi by pm2 
+  shell: pm2 restart analytics-sync analytics-webapi
+

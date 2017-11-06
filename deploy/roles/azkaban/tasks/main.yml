@@ -1,0 +1,14 @@
+---
+# This playbook contains common plays that will be run on all nodes.
+#
+- name: copy the rc.local script 
+  copy:
+    src: azkaban_rc.local.sh
+    dest: /tmp/rc.local
+    mode: 0755
+
+- name: add new content to rc.local
+  shell: cat /tmp/rc.local >> /etc/rc.d/rc.local
+   
+- name: shutdown all etl servers
+  shell: shutdown -h now 

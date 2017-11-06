@@ -1,0 +1,67 @@
+---
+# This playbook contains common plays that will be run on all nodes.
+#
+- name: Create backup dir 
+  command: mkdir -p {{ dmp_bak_dir }}/$(date '+%F_%H')
+
+# report-api
+- name: Backup report-api
+  command: \cp -ar {{ report_dir }} {{ dmp_bak_dir }}/$(date '+%F_%H')/
+
+- name: Create deploy dir 
+  command: mkdir -p {{ dmp_deploy_dir }}/$(date '+%F_%H')
+
+
+- name: Copy local deploy file to server's temp dir
+  copy: src=reportapi_webapps.zip dest={{ dmp_deploy_dir }} 
+  
+
+- name: Unarchive report webapps.zip 
+#  shell: unzip -od /mnt {{ dmp_deploy_dir }}/reportapi_webapps.zip
+  unarchive: src={{ dmp_deploy_dir }}/reportapi_webapps.zip dest=/mnt copy=no mode=0755
+
+
+- name: Get reportapi processes
+  shell: pgrep reportapi 
+  register: reportapi_processes
+
+- name: Get reportcron processes
+  shell: pgrep reportcron 
+  register: reportcron_processes
+#  ignore_errors: yes
+
+
+- name: restart reportapi , reportcron service 
+  command: "{{ item }}"
+  args: 
+    chdir: "{{ report_dir }}"
+  with_items: 
+    - "sh stop.sh"
+    - "sh stopjob.sh"
+
+#- name: Check reportapi , reportcron processes 
+#  shell: pgrep reportapi| wc -l 
+#  register: 
+
+
+#- name: stop reportcron service 
+#  command: sh {{ report_dir }}/stopjob.sh
+
+- name: restart reportapi , reportcron service 
+  command: "{{ item }}" 
+  args:
+    chdir: "{{ report_dir }}"
+  with_items: 
+    - "sh start.sh"
+    - "sh startjob.sh"
+
+#- name: 
+
+
+- name: Archive deploy file
+  shell: mv {{ dmp_deploy_dir }}/reportapi_webapps.zip {{ dmp_deploy_dir }}/$(date '+%F_%H')/
+
+
+
+
+

@@ -1,0 +1,44 @@
+# The global variable file dmp deploy
+
+
+# Global variables 
+
+# Dmp date
+#dmp_date: `date '+%F_%H'`
+
+# Dmp webapp dir
+dmp_dir: /mnt/webapps/
+
+# Dmp Backup dir
+dmp_bak_dir: /mnt/webapps/backup/
+
+# Dmp temp deploy file
+dmp_deploy_dir: /home/xu.chen/deploy/
+
+
+mongo_bak_dir: /home/mongo-backup
+
+mongo_host: localhost
+
+mongo_port: 27017 
+
+mongo_db: webapi
+
+
+# audience_api 
+audience-api_dir: /mnt/webapps/audience_api/
+
+# Reportapi 
+report_dir: /mnt/webapps/report-api/
+
+# datapi
+datapi_dir: /mnt/webapps/datapi/
+
+
+# data-assets-report-api
+data-assets-report-api_dir: /mnt/webapps/data-assets-report-api/
+
+# webapi config dir 
+webapi_conf: webapi/src/config/config.production.js
+
+
