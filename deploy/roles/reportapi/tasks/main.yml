@@ -49,14 +49,12 @@
 
 - name: If reportapi runing, force kill it
   shell: kill -9 reportapi_pid.stdout
-  when:
+  when: reportapi_status.stdout|int = 1
 
 - name: If reportcron runing, force kill it
   shell: kill -9 reportcron_pid.stdout
+  when: reportcron_status.stdout|int = 1
 
-
-#- name: stop reportcron service 
-#  command: sh {{ report_dir }}/stopjob.sh
 
 - name: Start reportapi , reportcron service 
   command: "{{ item }}" 
@@ -66,16 +64,16 @@
     - "sh start.sh"
     - "sh startjob.sh"
 
-#- name: Check reportapi up
-#  command: 
 
+- command: echo 'reportapi start failure'
+  when: reportapi_status.stdout|int != 1
 
-
+- command: echo 'reportcron start failure'
+  when: reportcron_status.stdout|int != 1
 
 
 - name: Archive deploy file
   shell: mv {{ dmp_deploy_dir }}/reportapi_webapps.zip {{ dmp_deploy_dir }}/$(date '+%F_%H')/
-
 
 
 
