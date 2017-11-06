@@ -21,17 +21,17 @@
   unarchive: src={{ dmp_deploy_dir }}/reportapi_webapps.zip dest=/mnt copy=no mode=0755
 
 
-- name: Get reportapi processes
+- name: Get reportapi processes id
   shell: pgrep reportapi 
-  register: reportapi_processes
+  register: reportapi_pid
 
-- name: Get reportcron processes
+- name: Get reportcron processes id 
   shell: pgrep reportcron 
-  register: reportcron_processes
+  register: reportcron_pid
 #  ignore_errors: yes
 
 
-- name: restart reportapi , reportcron service 
+- name: Stop reportapi , reportcron service 
   command: "{{ item }}"
   args: 
     chdir: "{{ report_dir }}"
@@ -39,15 +39,26 @@
     - "sh stop.sh"
     - "sh stopjob.sh"
 
-#- name: Check reportapi , reportcron processes 
-#  shell: pgrep reportapi| wc -l 
-#  register: 
+- name: Check reportapi processes 
+  shell: pgrep reportapi| wc -l 
+  register: reportapi_status
+
+- name: Check reportcron processes 
+  shell: pgrep reportapi| wc -l 
+  register: reportcron_status
+
+- name: If reportapi runing, force kill it
+  shell: kill -9 reportapi_pid.stdout
+  when:
+
+- name: If reportcron runing, force kill it
+  shell: kill -9 reportcron_pid.stdout
 
 
 #- name: stop reportcron service 
 #  command: sh {{ report_dir }}/stopjob.sh
 
-- name: restart reportapi , reportcron service 
+- name: Start reportapi , reportcron service 
   command: "{{ item }}" 
   args:
     chdir: "{{ report_dir }}"
@@ -55,7 +66,11 @@
     - "sh start.sh"
     - "sh startjob.sh"
 
-#- name: 
+#- name: Check reportapi up
+#  command: 
+
+
+
 
 
 - name: Archive deploy file
