@@ -1,3 +1,5 @@
-deploy/roles/web/files/
-deploy/roles/azkaban/files/
-deploy/roles/reportapi/files/
+*.sql
+*.zip
+*.gz
+*.tgz
+
