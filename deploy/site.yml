@@ -4,7 +4,7 @@
 ## Apply common configuration to all hosts
 #- hosts: all
 #- hosts: artwee_report-api
-- hosts: poli-demo-clone
+#- hosts: poli-demo-clone
 #- hosts: qa_etl
 #- hosts: azkaban
 #- hosts: exxon_web
@@ -12,6 +12,7 @@
 #- hosts: iresearch_web
 #- hosts: mc_web
 #- hosts: pilot_web
+- hosts: web_dev-clone
   gather_facts: no
   serial: 1
   remote_user: xu.chen
@@ -19,7 +20,8 @@
   become_user: root
   roles:
 #   - azkaban
-  - web 
+  - reportapi
+#  - web 
 
   tags:
   - web

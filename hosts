@@ -18,6 +18,10 @@ dev_etl
 qa_etl
 
 
+[web_dev-clone]
+54.223.54.91
+
+
 # dev env
 [dev_etl]
 52.80.108.42

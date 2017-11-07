@@ -16,18 +16,17 @@
   copy: src=reportapi_webapps.zip dest={{ dmp_deploy_dir }} 
   
 
-- name: Unarchive report webapps.zip 
-#  shell: unzip -od /mnt {{ dmp_deploy_dir }}/reportapi_webapps.zip
-  unarchive: src={{ dmp_deploy_dir }}/reportapi_webapps.zip dest=/mnt copy=no mode=0755
 
 
 - name: Get reportapi processes id
   shell: pgrep reportapi 
   register: reportapi_pid
+  tags: stop
 
 - name: Get reportcron processes id 
   shell: pgrep reportcron 
   register: reportcron_pid
+  tags: stop
 #  ignore_errors: yes
 
 
@@ -38,31 +37,40 @@
   with_items: 
     - "sh stop.sh"
     - "sh stopjob.sh"
+  tags: stop
 
-- name: Check reportapi processes 
-  shell: pgrep reportapi| wc -l 
-  register: reportapi_status
+#- name: Check reportapi processes 
+#  shell: pgrep reportapi| wc -l 
+#  register: reportapi_status
+#  tags: stop
+#
+#- name: Check reportcron processes 
+#  shell: pgrep reportapi| wc -l 
+#  register: reportcron_status
+#  tags: stop
+#
+##- name: reportapi runing , force kill it
+#- shell: kill -9 {{ reportapi_pid.stdout }}
+#  when: reportapi_status.stdout|int = 1 
+#  tags: stop
+#
+#- name: reportcron runing , force kill it
+#  shell: kill -9 reportcron_pid.stdout
+#  when: reportcron_status.stdout|int = 1
+#  tags: stop
 
-- name: Check reportcron processes 
-  shell: pgrep reportapi| wc -l 
-  register: reportcron_status
 
-- name: If reportapi runing, force kill it
-  shell: kill -9 reportapi_pid.stdout
-  when: reportapi_status.stdout|int = 1
-
-- name: If reportcron runing, force kill it
-  shell: kill -9 reportcron_pid.stdout
-  when: reportcron_status.stdout|int = 1
-
-
+- name: Unarchive report webapps.zip 
+#  shell: unzip -od /mnt {{ dmp_deploy_dir }}/reportapi_webapps.zip
+  unarchive: src={{ dmp_deploy_dir }}/reportapi_webapps.zip dest=/mnt copy=no mode=0755
 - name: Start reportapi , reportcron service 
-  command: "{{ item }}" 
+  shell: "{{ item }}" 
   args:
     chdir: "{{ report_dir }}"
   with_items: 
-    - "sh start.sh"
-    - "sh startjob.sh"
+    - "setsid sh start.sh"
+    - "setsid sh startjob.sh"
+  tags: start
 
 
 - command: echo 'reportapi start failure'
@@ -76,5 +84,14 @@
   shell: mv {{ dmp_deploy_dir }}/reportapi_webapps.zip {{ dmp_deploy_dir }}/$(date '+%F_%H')/
 
 
+- name: Delete 60d ago backup file
+  shell: cd {{ dmp_bak_dir }} && find . -mtime +60 -type d -print0 | xargs -0 /bin/rm -fr
+  tags:
+     - always
+     - clean
 
-
+- name: Delete 15d ago deploy file
+  shell: cd {{ dmp_deploy_dir }} && find . -mtime +15 -type d -print0 | xargs -0 /bin/rm -fr
+  tags:
+     - always
+     - clean

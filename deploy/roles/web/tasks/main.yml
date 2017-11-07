@@ -82,7 +82,8 @@
 
 
 - name: Unarchive webapps.zip 
-  shell: unzip -od /mnt {{ dmp_deploy_dir }}/web_webapps.zip
+  unarchive: src={{ dmp_deploy_dir }}/web_webapps.zip dest=/mnt copy=no mode=0755
+#  shell: unzip -od /mnt {{ dmp_deploy_dir }}/web_webapps.zip
   tags: always
 
 #- name: Unarchive webapps.zip 

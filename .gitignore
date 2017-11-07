@@ -2,4 +2,6 @@
 *.zip
 *.gz
 *.tgz
+*.swp
+*.bak
 
