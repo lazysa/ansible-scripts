@@ -31,7 +31,7 @@ qa_etl
 
 # pilot env 
 [pilot_web-clone]
-54.222.192.153
+54.223.190.102
 
 [pilot_web]
 54.223.196.202
@@ -81,6 +81,9 @@ qa_etl
 52.80.17.135
 
 # malogic env 
+[malogic_web]
+54.223.163.114
+
 [malogic_etl]
 52.80.61.31
 
