@@ -13,21 +13,20 @@
 
 
 - name: Copy local deploy file to server's temp dir
-  copy: src=reportapi_webapps.zip dest={{ dmp_deploy_dir }} 
+  copy: src=reportapi_webapps.zip dest={{ dmp_deploy_dir }} mode=0755
   
 
-
-
-- name: Get reportapi processes id
-  shell: pgrep reportapi 
-  register: reportapi_pid
+- name: Check reportapi processes pro
+  shell: pgrep report | wc -l
+  register: reportapi_status
+  ignore_errors: yes
   tags: stop
 
-- name: Get reportcron processes id 
-  shell: pgrep reportcron 
-  register: reportcron_pid
+- name: Check reportcron processes pro
+  shell: pgrep reportcron | wc -l 
+  register: reportcron_status
+  ignore_errors: yes
   tags: stop
-#  ignore_errors: yes
 
 
 - name: Stop reportapi , reportcron service 
@@ -40,20 +39,22 @@
   tags: stop
 
 #
-##- name: reportapi runing , force kill it
-#- shell: kill -9 {{ reportapi_pid.stdout }}
-#  when: reportapi_status.stdout|int = 1 
-#  tags: stop
-#
-#- name: reportcron runing , force kill it
-#  shell: kill -9 reportcron_pid.stdout
-#  when: reportcron_status.stdout|int = 1
-#  tags: stop
+- name: reportapi runing , force kill it
+  shell: killall reportapi
+  when: reportapi_status.stdout|int != 0 
+  ignore_errors: yes
+  tags: stop
+
+- name: reportcron runing , force kill it
+  shell: killall reportcron
+  when: reportcron_status.stdout|int != 0
+  ignore_errors: yes
+  tags: stop
 
 
 - name: Unarchive report webapps.zip 
-#  shell: unzip -od /mnt {{ dmp_deploy_dir }}/reportapi_webapps.zip
-  unarchive: src={{ dmp_deploy_dir }}/reportapi_webapps.zip dest=/mnt copy=no mode=0755
+  shell: unzip -od /mnt {{ dmp_deploy_dir }}/reportapi_webapps.zip
+#  unarchive: src={{ dmp_deploy_dir }}/reportapi_webapps.zip dest=/mnt copy=no mode=0755
 
 
 - name: Start reportapi , reportcron service 
@@ -61,26 +62,30 @@
   args:
     chdir: "{{ report_dir }}"
   with_items: 
+    - "chmod a+x reportapi"
+    - "chmod a+x reportcron"
     - "setsid sh start.sh"
     - "setsid sh startjob.sh"
   tags: start
 
-- name: Check reportapi processes 
-  shell: pgrep reportapi| wc -l 
+- name: Check reportapi processes post
+  shell: pgrep reportapi | wc -l 
   register: reportapi_status
   tags: start
 
-- name: Check reportcron processes 
-  shell: pgrep reportapi| wc -l 
+- name: Check reportcron processes post
+  shell: pgrep reportapi | wc -l 
   register: reportcron_status
   tags: start
 
-- command: echo 'reportapi start failure'
-  when: reportapi_status.stdout|int != 1
+- debug:
+    msg: "reportapi start failure"
+  when: reportapi_status.stdout|int == 0
   tags: start
 
-- command: echo 'reportcron start failure'
-  when: reportcron_status.stdout|int != 1
+- debug:
+    msg: "reportcron start failure"
+  when: reportcron_status.stdout|int == 0
   tags: start
 
 

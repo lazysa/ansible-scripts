@@ -12,8 +12,8 @@
 #- hosts: iresearch_web
 #- hosts: mc_web
 #- hosts: pilot_web
-- hosts: pilot_web-clone
-#- hosts: web_dev-clone
+#- hosts: pilot_web-clone
+- hosts: web_dev-clone
 #- hosts: malogic_web
   gather_facts: no
   serial: 1
@@ -22,8 +22,8 @@
   become_user: root
   roles:
 #   - azkaban
-#  - reportapi
-  - web 
+  - reportapi
+#  - web 
 
   tags:
   - web
