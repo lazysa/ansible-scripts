@@ -2,14 +2,15 @@
 # This playbook contains common plays that will be run on all nodes.
 #
 - name: Create backup dir 
-  command: mkdir -p {{ dmp_bak_dir }}/$(date '+%F_%H')
+  shell: mkdir -p {{ dmp_bak_dir }}/$(date '+%F_%H')
+  tags: one
 
 # report-api
 - name: Backup report-api
   command: \cp -ar {{ report_dir }} {{ dmp_bak_dir }}/$(date '+%F_%H')/
 
 - name: Create deploy dir 
-  command: mkdir -p {{ dmp_deploy_dir }}/$(date '+%F_%H')
+  shell: mkdir -p {{ dmp_deploy_dir }}/$(date '+%F_%H')
 
 
 - name: Copy local deploy file to server's temp dir
@@ -88,9 +89,24 @@
   when: reportcron_status.stdout|int == 0
   tags: start
 
+- name: confirmation audience file date
+  command: ls -l {{item}}
+  register: report_date
+  args:
+    chdir: "{{ report_dir }}"
+  with_items:
+    - reportapi
+    - reportcron
+  tags: start
+
+- debug: var=report_date
+  tags: start
+
 
 - name: Archive deploy file
-  shell: mv {{ dmp_deploy_dir }}/reportapi_webapps.zip {{ dmp_deploy_dir }}/$(date '+%F_%H')/
+  shell: mv reportapi_webapps.zip $(date '+%F_%H')/
+  args:
+    chdir: "{{ dmp_deploy_dir }}"
 
 
 - name: Delete 60d ago backup file

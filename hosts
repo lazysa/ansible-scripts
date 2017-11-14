@@ -8,8 +8,8 @@ pilot_etl
 exxon_etl-clone
 exxon_etl
 artwee_etl
-malogic_etl
 malogic_etl-1
+malogic_etl-2
 iresearch_etl
 amersports_etl
 
@@ -18,8 +18,20 @@ dev_etl
 qa_etl
 
 
+[malogic:children]
+malogic_web
+malogic_es
+#malogic_public-2
+#malogic_public-1
+malogic_etl-1
+malogic_etl-2
+
+
+[web_qa]
+54.223.34.102
+
 [web_dev-clone]
-52.80.5.206
+54.223.49.126
 
 
 # dev env
@@ -81,17 +93,35 @@ qa_etl
 52.80.17.135
 
 # malogic env 
+
 [malogic_web]
 54.223.163.114
 
-[malogic_etl]
-52.80.61.31
+[malogic_es]
+54.223.243.161
+
+#[malogic_public-2]
+#52.80.73.175
+#
+#[malogic_public-1]
+#54.223.231.106
 
 [malogic_etl-1]
+52.80.61.31
+
+[malogic_etl-2]
 52.80.45.182
+
+
+
+
+[amersports_web]
+52.80.60.120
 
 [amersports_etl]
 52.80.58.190
+
+
 
 # poli env 
 # clone

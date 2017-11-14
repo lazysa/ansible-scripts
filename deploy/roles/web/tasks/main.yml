@@ -218,11 +218,14 @@
 
 
 - name: Archive deploy file
-  shell: mv -f {{ dmp_deploy_dir }}/{{ item }} {{ dmp_deploy_dir }}/$(date '+%F_%H')/
+  shell: \mv {{ item }} $(date '+%F_%H')
+  args:
+    chdir: "{{ dmp_deploy_dir }}"
+  ignore_errors: yes
   with_items:
     - web_webapps.zip
-    - file
-    - sql
+    - file/*
+    - sql/*
   tags:
      - always
      - archive 

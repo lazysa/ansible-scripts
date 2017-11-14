@@ -3,10 +3,14 @@
 
 ## Apply common configuration to all hosts
 #- hosts: all
-- hosts: all
+#- hosts: exxon_etl-clone
+#- hosts: web_qa
+- hosts: web_dev-clone
   remote_user: xu.chen
   become: yes
   become_user: root
+  gather_facts: no
+  serial: 1
   roles:
   - server
 
