@@ -2,15 +2,13 @@
 # This playbook contains common plays that will be run on all nodes.
 #
 - name: Create backup dir 
-  shell: mkdir -p {{ dmp_bak_dir }}/$(date '+%F_%H')
-  tags: one
-
+  command: mkdir -p {{ dmp_bak_dir }}/$(date '+%F_%H')
 # report-api
 - name: Backup report-api
   command: \cp -ar {{ report_dir }} {{ dmp_bak_dir }}/$(date '+%F_%H')/
 
 - name: Create deploy dir 
-  shell: mkdir -p {{ dmp_deploy_dir }}/$(date '+%F_%H')
+  command: mkdir -p {{ dmp_deploy_dir }}/$(date '+%F_%H')
 
 
 - name: Copy local deploy file to server's temp dir
