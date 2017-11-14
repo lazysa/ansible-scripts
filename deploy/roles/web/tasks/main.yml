@@ -39,25 +39,25 @@
      - dataapi
 
 - name: Backup analytics 
-  shell: \cp -ar {{ dmp_dir }}/data-suite/analytics {{ dmp_bak_dir }}/$(date '+%F_%H')/data-suite/
+  shell: \cp -ar {{ data_suite_dir }}/analytics {{ dmp_bak_dir }}/$(date '+%F_%H')/data-suite/
   tags:
      - backup
      - analytics 
 
 - name: Backup data-assets
-  shell: \cp -ar {{ dmp_dir }}/data-suite/data-assets {{ dmp_bak_dir }}/$(date '+%F_%H')/data-suite/
+  shell: \cp -ar {{ data_suite_dir }}/data-assets {{ dmp_bak_dir }}/$(date '+%F_%H')/data-suite/
   tags:
      - backup
      - data-assets
 
 - name: Backup upm 
-  shell: \cp -ar {{ dmp_dir }}/data-suite/upm {{ dmp_bak_dir }}/$(date '+%F_%H')/data-suite/
+  shell: \cp -ar {{ data_suite_dir }}/upm {{ dmp_bak_dir }}/$(date '+%F_%H')/data-suite/
   tags:
      - backup
      - upm
 
 - name: Backup audience 
-  shell: \cp -ar {{ dmp_dir }}/data-suite/audience {{ dmp_bak_dir }}/$(date '+%F_%H')/data-suite/
+  shell: \cp -ar {{ data_suite_dir }}/audience {{ dmp_bak_dir }}/$(date '+%F_%H')/data-suite/
   tags:
      - backup
      - audience 
@@ -80,77 +80,164 @@
      - always 
      - file
 
+- name: Stop audience_api service
+  shell: "{{ item }}"
+  args:
+    chdir: "{{ audience_api_dir }}"
+  with_items:
+    - "sh stop.sh all"
+  tags: 
+     - stop
+     - audience_api
+
+- name: stop datapi services
+  shell: "{{ item }}"
+  args: 
+    chdir: "{{ datapi_dir }}"
+  with_items: 
+    - "sh stop.sh"
+  tags: 
+     - stop
+     - datapi
+
+- name: stop data-assets-report-api service
+  shell: "{{ item }}"
+  args: 
+    chdir: "{{ data_assets_report_api_dir }}"
+  with_items: 
+    - "sh stop.sh"
+  tags: 
+     - stop
+     - data-assets-report-api
+
 
 - name: Unarchive webapps.zip 
 #  unarchive: src={{ dmp_deploy_dir }}/web_webapps.zip dest=/mnt copy=no mode=0755
   shell: unzip -od /mnt {{ dmp_deploy_dir }}/web_webapps.zip
   tags: always
 
-#- name: Unarchive webapps.zip 
-#  unarchive: src={{ dmp_deploy_dir }}/web_webapps.zip dest=/mnt copy=no mode=0755
+
+- name: Start audience_api service
+  shell: "{{ item }}"
+  args:
+    chdir: "{{ audience_api_dir }}"
+  with_items:
+    - "chmod -R a+x ."
+    - "setsid sh start.sh all"
+  tags: 
+     - start
+     - audience_api
+
+- name: start datapi services
+  shell: "{{ item }}"
+  args: 
+    chdir: "{{ datapi_dir }}"
+  with_items: 
+    - "chmod -R a+x ."
+    - "setsid sh app.sh all"
+  tags: 
+     - start
+     - datapi
+
+- name: start data-assets-report-api service
+  shell: "{{ item }}"
+  args: 
+    chdir: "{{ data_assets_report_api_dir }}"
+  with_items: 
+    - "chmod -R a+x ."
+    - "setsid sh start.sh all"
+  tags: 
+     - start
+     - data-assets-report-api
 
 
 # analytics config
 - name: Copy analytics last config file
-  shell: \cp -ar {{ dmp_bak_dir }}/$(date '+%F_%H')/data-suite/analytics/{{ webapi_conf }} {{ dmp_dir }}/data-suite/analytics/{{ webapi_conf }}
+  shell: \cp -ar {{ dmp_bak_dir }}/$(date '+%F_%H')/data-suite/analytics/{{ webapi_conf }} {{ data_suite_dir }}/analytics/{{ webapi_conf }}
   tags:
      - config
      - analytics 
 
 # audience config
 - name: Copy audience last config file
-  shell: \cp -ar {{ dmp_bak_dir }}/$(date '+%F_%H')/data-suite/audience/{{ webapi_conf }} {{ dmp_dir }}/data-suite/audience/{{ webapi_conf }}
+  shell: \cp -ar {{ dmp_bak_dir }}/$(date '+%F_%H')/data-suite/audience/{{ webapi_conf }} {{ data_suite_dir }}/audience/{{ webapi_conf }}
   tags:
      - config
      - audience 
 
 # data-assets  config
 - name: Copy data-assets last config file
-  shell: \cp -ar {{ dmp_bak_dir }}/$(date '+%F_%H')/data-suite/data-assets/{{ webapi_conf }} {{ dmp_dir }}/data-suite/data-assets/{{ webapi_conf }}
+  shell: \cp -ar {{ dmp_bak_dir }}/$(date '+%F_%H')/data-suite/data-assets/{{ webapi_conf }} {{ data_suite_dir }}/data-assets/{{ webapi_conf }}
   tags:
      - config
      - data-assets 
 
 # upm config
 - name: Copy upm last config file
-  shell: \cp -ar {{ dmp_bak_dir }}/$(date '+%F_%H')/data-suite/upm/{{ webapi_conf }} {{ dmp_dir }}/data-suite/upm/{{ webapi_conf }}
+  shell: \cp -ar {{ dmp_bak_dir }}/$(date '+%F_%H')/data-suite/upm/{{ webapi_conf }} {{ data_suite_dir }}/upm/{{ webapi_conf }}
   tags:
      - config
      - upm
 
 
-#- name: stop audience_api services
-#  command: "{{ item }}"
-#  args: 
-#    chdir: "{{ audience_api_dir }}"
-#  with_items: 
-#    - "sh stop.sh"
-##    - "sh stopjob.sh"
-#
-#- name: stop datapi services
-#  command: "{{ item }}"
-#  args: 
-#    chdir: "{{ datapi_dir }}"
-#  with_items: 
-#    - "sh stop.sh"
-##    - "sh stopjob.sh"
-#
-#- name: stop data-assets-report-api service
-#  command: "{{ item }}"
-#  args: 
-#    chdir: "{{ data-assets-report-api_dir }}"
-#  with_items: 
-#    - "sh stop.sh"
-#    - "sh stopjob.sh"
+- name: confirmation audience-api file date 
+  shell: ls -l {{item}}
+  register: audience-api_date
+  args:
+    chdir: /mnt/webapps/audience-api/
+  with_items:
+    - business-api/businessapi
+    - business-api/businessservice
+    - business-cron/businesscron
+    - data-api/dataapi
+    - data-api/dataservice
+    - data-cron/datacron
+    - download-api/downloadapi
+    - third-iresearch/server 
+  tags: 
+     - confirm
+     - audience-api
 
+- debug: var=audience-api_date
+  tags: 
+     - confirm
+     - audience-api
 
-#- name: confirmation deploy file's date 
-#  stat: path=
-#  shell: ls -l {{ dmp_dir }}/data-suite/audience/webapi/
+- name: confirmation datapi file date 
+  shell: ls -l {{item}}
+  register: datapi_date
+  args:
+    chdir: "{{ datapi_dir }}"
+  with_items:
+    - datasource
+  tags: 
+     - confirm
+     - datapi
+
+- debug: var=datapi_date
+  tags: 
+     - confirm
+     - datapi
+
+- name: confirmation data-assets-report-api file date 
+  shell: ls -l {{item}}
+  register: dataassetsreportapi_date
+  args:
+    chdir: "{{ data_assets_report_api_dir }}"
+  with_items:
+    - data-assets-reportapi
+  tags: 
+     - confirm
+     - data-assets-report-api
+
+- debug: var=dataassetsreportapi_date
+  tags: 
+     - confirm
+     - data-assets-report-api
 
 
 - name: confirmation upm file date 
-  command: ls -l {{item}}
+  shell: ls -l {{item}}
   register: upm_date
   args:
     chdir: /mnt/webapps/data-suite/upm/

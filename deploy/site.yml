@@ -24,8 +24,8 @@
   become_user: root
   roles:
 #   - azkaban
-  - reportapi
-#  - web 
+#  - reportapi
+  - web 
 
   tags:
   - web

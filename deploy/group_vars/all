@@ -9,6 +9,8 @@
 # Dmp webapp dir
 dmp_dir: /mnt/webapps/
 
+data_suite_dir: /mnt/webapps/data-suite/
+
 # Dmp Backup dir
 dmp_bak_dir: /mnt/webapps/backup/
 
@@ -26,7 +28,7 @@ mongo_db: webapi
 
 
 # audience_api 
-audience-api_dir: /mnt/webapps/audience_api/
+audience_api_dir: /mnt/webapps/audience_api/
 
 # Reportapi 
 report_dir: /mnt/webapps/report-api/
@@ -36,7 +38,7 @@ datapi_dir: /mnt/webapps/datapi/
 
 
 # data-assets-report-api
-data-assets-report-api_dir: /mnt/webapps/data-assets-report-api/
+data_assets_report_api_dir: /mnt/webapps/data-assets-report-api/
 
 # webapi config dir 
 webapi_conf: webapi/src/config/config.production.js
