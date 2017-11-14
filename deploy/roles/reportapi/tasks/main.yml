@@ -102,7 +102,7 @@
 
 
 - name: Archive deploy file
-  shell: mv reportapi_webapps.zip $(date '+%F_%H')/
+  shell: \mv reportapi_webapps.zip $(date '+%F_%H')/
   args:
     chdir: "{{ dmp_deploy_dir }}"
 

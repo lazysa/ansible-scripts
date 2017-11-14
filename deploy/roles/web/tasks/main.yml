@@ -3,7 +3,7 @@
 ##
 
 - name: Create mongo_bak_dir
-  command: mkdir -p {{ mongo_bak_dir }}/$(date '+%F_%H')
+  shell: mkdir -p {{ mongo_bak_dir }}/$(date '+%F_%H')
   tags: mongo
 
 - name: Backup MongoDB by mongodump
