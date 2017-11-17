@@ -1,10 +1,10 @@
 # The global variable file dmp deploy
 
 # Dmp webapp dir
-dmp_dir: /mnt/webapps/
+#dmp_dir: /mnt/webapps/
 
 # Dmp Backup dir
-dmp_bak_dir: /mnt/webapps/backup/
+#dmp_bak_dir: /mnt/webapps/backup/
 
 # Dmp deploy file
 dmp_deploy_dir: /home/xu.chen/deploy/
