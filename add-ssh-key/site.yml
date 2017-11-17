@@ -14,7 +14,8 @@
 #- hosts: pilot_web
 #- hosts: pilot_web-clone
 #- hosts: web_dev-clone
-- hosts: amersports_web
+#- hosts: amersports_web
+- hosts: web_qa
 #- hosts: pilot_web
 #- hosts: malogic_web
   gather_facts: no

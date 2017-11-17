@@ -7,16 +7,23 @@
     - all_ssh_key
     - add_ssh_key.sh
   tags:
-    - ssh 
+    - install 
     - key 
 
 - name: Start add ssh_key exec add_ssh_key.sh
-  shell: "sh add_ssh_key.sh loch.gu"
+  shell: "sh add_ssh_key.sh {{ ssh_user }}"
   args:
     chdir: "{{ dmp_deploy_dir }}"
   tags:
-    - start 
+    - install 
 
+- name: Delete username 
+  shell: "userdel -r {{ ssh_user }}"
+  tags:
+    - remove
 
-
+- name: Delete username's sudo config
+  shell: sed -i.bak "/^{{ ssh_user }}/d" {{ sudo_conf }}
+  tags:
+    - remove
 

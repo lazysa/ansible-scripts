@@ -8,3 +8,7 @@
 
 # Dmp deploy file
 dmp_deploy_dir: /home/xu.chen/deploy/
+
+ssh_user: yuqing.tong
+
+sudo_conf: /etc/sudoers
