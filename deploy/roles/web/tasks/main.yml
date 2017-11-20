@@ -62,6 +62,11 @@
      - backup
      - audience 
 
+- name: Backup crm 
+  shell: \cp -ar {{ data_suite_dir }}/crm {{ dmp_bak_dir }}/$(date '+%F_%H')/data-suite/
+  tags:
+     - backup
+     - crm 
 
 - name: Starting deploy, Create deploy dir 
   shell: mkdir -p {{ dmp_deploy_dir }}/$(date '+%F_%H')
@@ -179,6 +184,13 @@
      - config
      - upm
 
+# crm config
+- name: Copy crm last config file
+  shell: \cp -ar {{ dmp_bak_dir }}/$(date '+%F_%H')/data-suite/crm/{{ webapi_conf }} {{ data_suite_dir }}/crm/{{ webapi_conf }}
+  tags:
+     - config
+     - crm
+
 
 - name: confirmation audience-api file date 
   shell: ls -l {{item}}
@@ -285,6 +297,23 @@
   tags: 
      - confirm
      - audience
+
+- name: confirmation crm file date 
+  command: ls -l {{item}}
+  register: crm_date
+  args:
+    chdir: /mnt/webapps/data-suite/crm/
+  with_items:
+    - webapi
+    - webapp/index.html
+  tags: 
+     - confirm
+     - crm
+
+- debug: var=crm_date
+  tags: 
+     - confirm
+     - crm
 
 - name: confirmation data-assets file date 
   command: ls -l {{item}}
