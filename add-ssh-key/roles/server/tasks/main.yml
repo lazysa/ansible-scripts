@@ -1,7 +1,7 @@
 ---
 # This playbook contains common plays that will be run on all nodes.
 
-- name: Copy add_ssh_key.sh and ssh_key to remote server
+- name: Copy add_ssh_key.sh and all_ssh_key to remote server
   copy: src={{ item }} dest={{ dmp_deploy_dir }} mode=0755
   with_items:
     - all_ssh_key
