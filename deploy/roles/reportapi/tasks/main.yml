@@ -3,29 +3,34 @@
 #
 - name: Create backup dir 
   shell: mkdir -p {{ dmp_bak_dir }}/$(date '+%F_%H')
+  tags: always
 # report-api
 - name: Backup report-api
   shell: \cp -ar {{ report_dir }} {{ dmp_bak_dir }}/$(date '+%F_%H')/
+  tags: always
 
 - name: Create deploy dir 
   shell: mkdir -p {{ dmp_deploy_dir }}/$(date '+%F_%H')
+  tags: always
 
 
 - name: Copy local deploy file to server's temp dir
   copy: src=reportapi_webapps.zip dest={{ dmp_deploy_dir }} mode=0755
+  tags: always
   
 
 - name: Check reportapi processes pro
   shell: pgrep report | wc -l
   register: reportapi_status
   ignore_errors: yes
-  tags: stop
+  tags: 
+     - always
 
 - name: Check reportcron processes pro
   shell: pgrep reportcron | wc -l 
   register: reportcron_status
   ignore_errors: yes
-  tags: stop
+  tags: always
 
 
 - name: Stop reportapi , reportcron service 
@@ -35,14 +40,19 @@
   with_items: 
     - "sh stop.sh"
     - "sh stopjob.sh"
-  tags: stop
+  ignore_errors: yes
+  tags: 
+     - stop
+     - mc
 
 #
 - name: reportapi runing , force kill it
   shell: killall reportapi
   when: reportapi_status.stdout|int != 0 
   ignore_errors: yes
-  tags: stop
+  tags: 
+     - stop
+     - mc
 
 - name: reportcron runing , force kill it
   shell: killall reportcron
@@ -53,6 +63,7 @@
 
 - name: Unarchive report webapps.zip 
   shell: unzip -od /mnt {{ dmp_deploy_dir }}/reportapi_webapps.zip
+  tags: mc
 #  unarchive: src={{ dmp_deploy_dir }}/reportapi_webapps.zip dest=/mnt copy=no mode=0755
 
 
@@ -65,15 +76,18 @@
     - "chmod a+x reportcron"
     - "setsid sh start.sh"
     - "setsid sh startjob.sh"
-  tags: start
+  ignore_errors: yes
+  tags: 
+     - always
 
 - name: Check reportapi processes post
   shell: pgrep reportapi | wc -l 
   register: reportapi_status
-  tags: start
+  tags: 
+     - always
 
 - name: Check reportcron processes post
-  shell: pgrep reportapi | wc -l 
+  shell: pgrep reportcron | wc -l 
   register: reportcron_status
   tags: start
 
@@ -87,7 +101,7 @@
   when: reportcron_status.stdout|int == 0
   tags: start
 
-- name: confirmation audience file date
+- name: confirmation report-api file date
   command: ls -l {{item}}
   register: report_date
   args:
@@ -95,16 +109,19 @@
   with_items:
     - reportapi
     - reportcron
-  tags: start
+  tags: always
 
 - debug: var=report_date
-  tags: start
+  tags: always
+  ignore_errors: yes
 
 
 - name: Archive deploy file
   shell: \mv reportapi_webapps.zip $(date '+%F_%H')/
   args:
     chdir: "{{ dmp_deploy_dir }}"
+  tags: 
+     - always
 
 
 - name: Delete 60d ago backup file

@@ -7,10 +7,10 @@
 #- hosts: poli-demo-clone
 #- hosts: qa_etl
 #- hosts: azkaban
-- hosts: exxon_web
+#- hosts: exxon_web
 #- hosts: exxon_web-clone
 #- hosts: iresearch_web
-#- hosts: mc_web
+- hosts: mc_web
 #- hosts: pilot_web
 #- hosts: pilot_web-clone
 #- hosts: web_dev-clone
@@ -27,7 +27,7 @@
 #  - reportapi
   - web 
 
-  tags:
-  - web
+#  tags:
+#  - web
 #   - azkaban
 
