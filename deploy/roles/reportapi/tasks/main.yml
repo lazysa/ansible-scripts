@@ -43,7 +43,7 @@
   ignore_errors: yes
   tags: 
      - stop
-     - mc
+     - always
 
 #
 - name: reportapi runing , force kill it
@@ -52,7 +52,7 @@
   ignore_errors: yes
   tags: 
      - stop
-     - mc
+     - always
 
 - name: reportcron runing , force kill it
   shell: killall reportcron
@@ -63,7 +63,8 @@
 
 - name: Unarchive report webapps.zip 
   shell: unzip -od /mnt {{ dmp_deploy_dir }}/reportapi_webapps.zip
-  tags: mc
+  tags: 
+     - always
 #  unarchive: src={{ dmp_deploy_dir }}/reportapi_webapps.zip dest=/mnt copy=no mode=0755
 
 
