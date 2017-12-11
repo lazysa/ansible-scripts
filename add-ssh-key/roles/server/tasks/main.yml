@@ -17,6 +17,24 @@
   tags:
     - install 
 
+- name: Add access log privileges
+  shell: setfacl -Rm u:{{ ssh_user }}:rx {{ item }}
+  with_items:
+    - /mnt/logs
+    - /mnt/webapps/audience_api/log
+  tags:
+    - install
+
+
+
+- name: Revoke access log privileges
+  shell: setfacl -Rx u:{{ ssh_user }} {{ item }}
+  with_items:
+    - /mnt/logs
+    - /mnt/webapps/audience_api/log
+  tags:
+    - remove
+
 - name: Delete username 
   shell: "userdel -r {{ ssh_user }}"
   tags:

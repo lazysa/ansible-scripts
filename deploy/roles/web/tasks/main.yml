@@ -333,6 +333,31 @@
      - data-assets
 
 
+- name: update upm npm packages
+  shell: npm i
+  register: upm_npm
+  args:
+    chdir: /mnt/webapps/data-suite/upm/webapi
+  tags: 
+     - upm_npm
+
+- debug: var=upm_npm
+  tags: 
+     - upm_npm
+     
+
+- name: restart upm process
+  shell: /usr/local/bin/pm2 restart {{item}} && pm2 show upm-webapi | grep 'uptime' && pm2 show upm-webapi-local | grep 'uptime'
+  with_items:
+    - upm-webapi
+    - upm-webapi-local
+  register: upm_pm2
+  tags: 
+     - upm_pm2
+- debug: var=upm_npm
+  tags: 
+     - upm_npm
+
 - name: Archive deploy file
   shell: \mv {{ item }} $(date '+%F_%H')
   args:
