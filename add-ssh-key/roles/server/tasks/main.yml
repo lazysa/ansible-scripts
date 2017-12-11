@@ -8,12 +8,18 @@
     - add_ssh_key.sh
   tags:
     - install 
-    - key 
+    - log_install 
 
 - name: Start add ssh_key exec add_ssh_key.sh
   shell: "sh add_ssh_key.sh {{ ssh_user }}"
   args:
     chdir: "{{ dmp_deploy_dir }}"
+  tags:
+    - install 
+    - log_install 
+
+- name: Add sudo privileges 
+  shell: echo "{{ ssh_user }} ALL=(ALL)       NOPASSWD:ALL" >> /etc/sudoers
   tags:
     - install 
 
@@ -23,7 +29,7 @@
     - /mnt/logs
     - /mnt/webapps/audience_api/log
   tags:
-    - install
+    - log_install
 
 
 
@@ -33,12 +39,13 @@
     - /mnt/logs
     - /mnt/webapps/audience_api/log
   tags:
-    - remove
+    - log_remove
 
 - name: Delete username 
   shell: "userdel -r {{ ssh_user }}"
   tags:
     - remove
+    - log_remove
 
 - name: Delete username's sudo config
   shell: sed -i.bak "/^{{ ssh_user }}/d" {{ sudo_conf }}

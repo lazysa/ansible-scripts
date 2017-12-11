@@ -1,7 +1,7 @@
 #!/bin/env bash
 
 if [ $# -ne 4 ]; then 
-    echo "Usage: $0 <ServerName> <Host:IPAddress> <UserName> <Mode:install|remove>" 
+    echo "Usage: $0 <ServerName> <Host:IPAddress> <UserName> <Mode:install|remove|log_install|log_remove>" 
     exit -1
 fi
 
@@ -23,13 +23,25 @@ function KEY_INSTALL () {
 	ansible-playbook -i $AnsibleHostConf $SiteConf -t install
 }
 
+function LOG_INSTALL () { 
+	ansible-playbook -i $AnsibleHostConf $SiteConf -t log_install
+}
+
 function KEY_REMOVE () {
 	ansible-playbook -i $AnsibleHostConf $SiteConf -t remove
 }
 
+function LOG_REMOVE () {
+	ansible-playbook -i $AnsibleHostConf $SiteConf -t log_remove
+}
+
 if [ $Mode == "remove" ] ; then 
 	KEY_REMOVE;
-else 
+elif [ $Mode == "install" ]; then   
 	KEY_INSTALL;
+elif [ $Mode == "log_install" ]; then   
+	LOG_INSTALL;
+else 
+	LOG_REMOVE;
 fi
 
