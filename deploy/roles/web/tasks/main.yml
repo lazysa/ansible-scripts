@@ -68,6 +68,12 @@
      - backup
      - crm 
 
+- name: Backup ba
+  shell: \cp -ar {{ data_suite_dir }}/ba-studio {{ dmp_bak_dir }}/$(date '+%F_%H')/data-suite/
+  tags:
+     - backup
+     - ba
+
 - name: Starting deploy, Create deploy dir 
   shell: mkdir -p {{ dmp_deploy_dir }}/$(date '+%F_%H')
   tags:
@@ -191,6 +197,12 @@
      - config
      - crm
 
+# ba config
+- name: Copy ba last config file
+  shell: \cp -ar {{ dmp_bak_dir }}/$(date '+%F_%H')/data-suite/ba/{{ webapi_conf }} {{ data_suite_dir }}/ba/{{ webapi_conf }}
+  tags:
+     - config
+     - ba
 
 - name: confirmation audience-api file date 
   shell: ls -l {{item}}
@@ -314,6 +326,23 @@
   tags: 
      - confirm
      - crm
+
+- name: confirmation ba file date 
+  command: ls -l {{item}}
+  register: ba_date
+  args:
+    chdir: /mnt/webapps/data-suite/ba-studio/
+  with_items:
+    - webapi
+    - webapp/index.html
+  tags: 
+     - confirm
+     - ba
+
+- debug: var=ba_date
+  tags: 
+     - confirm
+     - ba
 
 - name: confirmation data-assets file date 
   command: ls -l {{item}}
