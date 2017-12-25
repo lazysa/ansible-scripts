@@ -9,6 +9,6 @@ vim /mnt/ansible/hosts /mnt/ansible/add-ssh-key/site.yml
 sed -i  's/username/newname/' add-ssh-key/roles/server/tasks/main.yml
 
 3. running
-alias ak='ansible-playbook -i /mnt/ansible/hosts /mnt/ansible/add-ssh-key/site.yml'
-ak
+alias ad='ansible-playbook -i /mnt/ansible/hosts /mnt/ansible/add-ssh-key/site.yml'
+ad
 

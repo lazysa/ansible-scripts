@@ -436,6 +436,18 @@
      - mongo
 
 
+- name: Get config file
+  fetch: src={{ data_suite_dir }}/{{ item }}/{{ webapi_conf }} dest=/mnt/ansible/config/{{ item }}_config.production.js flat=yes #validate_checksum=yes
+  with_items:
+    - analytics
+    - data-assets
+    - upm
+    - crm
+    - audience
+    - ba-studio
+    - media-chooser
+  tags:
+     - cp_config
 ##  shell: \cp -ar {{ dmp_deploy_dir }}/$(date '+%F_%H')/data-suite/analytics/webapi/analytics-20170920/* {{ dmp_dir }}/data-suite/analytics/webapi
 #- name: Restart webapi by pm2 
 #  shell: /usr/local/bin/pm2 ls 
