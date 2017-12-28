@@ -92,7 +92,6 @@
   with_items:
     - "sh stop.sh all"
   tags: 
-     - stop
      - audience_api
 
 - name: stop datapi services
@@ -102,7 +101,6 @@
   with_items: 
     - "sh stop.sh"
   tags: 
-     - stop
      - datapi
 
 - name: stop data-assets-report-api service
@@ -112,7 +110,6 @@
   with_items: 
     - "sh stop.sh"
   tags: 
-     - stop
      - data-assets-report-api
 
 
@@ -130,7 +127,6 @@
     - "chmod -R a+x ."
     - "setsid sh start.sh all"
   tags: 
-     - start
      - audience_api
 
 - name: start datapi services
@@ -141,7 +137,6 @@
     - "chmod -R a+x ."
     - "setsid sh app.sh all"
   tags: 
-     - start
      - datapi
 
 - name: start data-assets-report-api service
@@ -152,7 +147,6 @@
     - "chmod -R a+x ."
     - "setsid sh start.sh all"
   tags: 
-     - start
      - data-assets-report-api
 
 
@@ -219,44 +213,31 @@
     - download-api/downloadapi
     - third-iresearch/server 
   tags: 
-     - confirm
-     - audience-api
-
+     - audience-api 
 - debug: var=audience-api_date
   tags: 
-     - confirm
      - audience-api
 
 - name: confirmation datapi file date 
-  shell: ls -l {{item}}
+  shell: ls -l datasource
   register: datapi_date
   args:
     chdir: "{{ datapi_dir }}"
-  with_items:
-    - datasource
   tags: 
-     - confirm
      - datapi
-
-- debug: var=datapi_date
+- debug: var=datapi_date.stdout_lines
   tags: 
-     - confirm
      - datapi
 
 - name: confirmation data-assets-report-api file date 
-  shell: ls -l {{item}}
+  shell: ls -l data-assets-reportapi
   register: dataassetsreportapi_date
   args:
     chdir: "{{ data_assets_report_api_dir }}"
-  with_items:
-    - data-assets-reportapi
   tags: 
-     - confirm
      - data-assets-report-api
-
-- debug: var=dataassetsreportapi_date
+- debug: var=dataassetsreportapi_date.stdout_lines
   tags: 
-     - confirm
      - data-assets-report-api
 
 
@@ -269,12 +250,9 @@
     - webapi
     - webapp/index.html
   tags: 
-     - confirm
      - upm
-
 - debug: var=upm_date
   tags: 
-     - confirm
      - upm
 
 - name: confirmation analytics file date 
@@ -286,11 +264,9 @@
     - webapi
     - webapp/index.html
   tags: 
-     - confirm
      - analytics
 - debug: var=analytics_date
   tags: 
-     - confirm
      - analytics
 
 - name: confirmation audience file date 
@@ -302,12 +278,9 @@
     - webapi
     - webapp/index.html
   tags: 
-     - confirm
      - audience
-
 - debug: var=audience_date
   tags: 
-     - confirm
      - audience
 
 - name: confirmation crm file date 
@@ -319,12 +292,9 @@
     - webapi
     - webapp/index.html
   tags: 
-     - confirm
      - crm
-
 - debug: var=crm_date
   tags: 
-     - confirm
      - crm
 
 - name: confirmation ba file date 
@@ -336,12 +306,9 @@
     - webapi
     - webapp/index.html
   tags: 
-     - confirm
      - ba
-
 - debug: var=ba_date
   tags: 
-     - confirm
      - ba
 
 - name: confirmation data-assets file date 
@@ -353,14 +320,10 @@
     - webapi
     - webapp/index.html
   tags: 
-     - confirm
      - data-assets
-
 - debug: var=dataassets_date
   tags: 
-     - confirm
      - data-assets
-
 
 - name: confirmation media-chooser file date 
   command: ls -l {{item}}
@@ -371,39 +334,224 @@
     - webapi
     - webapp/index.html
   tags: 
-     - confirm
      - mc
-
 - debug: var=mc_date
   tags: 
-     - confirm
      - mc
 
-
 - name: update upm npm packages
-  shell: npm i
+  shell: /root/.nvm/versions/node/v6.0.0/bin/npm i
   register: upm_npm
   args:
     chdir: /mnt/webapps/data-suite/upm/webapi
   tags: 
+     - config
      - upm_npm
-
 - debug: var=upm_npm
   tags: 
+     - config
      - upm_npm
      
+- name: update audience npm packages
+  shell: /root/.nvm/versions/node/v6.0.0/bin/npm i
+  register: audience_npm
+  args:
+    chdir: /mnt/webapps/data-suite/audience/webapi
+  tags: 
+     - config
+     - audience
+- debug: var=audience_npm
+  tags: 
+     - config
+     - audience
+
+- name: update data-assets npm packages
+  shell: /root/.nvm/versions/node/v6.0.0/bin/npm i
+  register: data-assets_npm
+  args:
+    chdir: /mnt/webapps/data-suite/data-assets/webapi
+  tags: 
+     - config
+     - data-assets 
+- debug: var=data-assets_npm
+  tags: 
+     - config
+     - data-assets
+
+- name: update crm npm packages
+  shell: /root/.nvm/versions/node/v6.0.0/bin/npm i
+  register: crm_npm
+  args:
+    chdir: /mnt/webapps/data-suite/crm/webapi
+  tags: 
+     - config
+     - crm 
+- debug: var=crm_npm
+  tags: 
+     - config
+     - crm
+
+- name: update ba npm packages
+  shell: /root/.nvm/versions/node/v6.0.0/bin/npm i
+  register: ba_npm
+  args:
+    chdir: /mnt/webapps/data-suite/ba-studio/webapi
+  tags: 
+     - config
+     - ba 
+- debug: var=ba_npm
+  tags: 
+     - config
+     - ba
 
 - name: restart upm process
-  shell: /usr/local/bin/pm2 restart {{item}} && pm2 show upm-webapi | grep 'uptime' && pm2 show upm-webapi-local | grep 'uptime'
+  shell: /usr/local/bin/pm2 restart {{item}} 
   with_items:
     - upm-webapi
     - upm-webapi-local
   register: upm_pm2
   tags: 
-     - upm_pm2
-- debug: var=upm_npm
+     - upm
+- debug: var=upm_pm2
   tags: 
-     - upm_npm
+     - upm
+
+- name: restart analytics process
+  shell: /usr/local/bin/pm2 restart {{item}} 
+  with_items:
+    - analytics-webapi
+    - analytics-sync
+  register: analytics_pm2
+  tags: 
+     - analytics
+- debug: var=analytics_pm2
+  tags: 
+     - analytics
+
+- name: restart data-assets process
+  shell: /usr/local/bin/pm2 restart {{item}} 
+  with_items:
+    - data-assets-webapi
+    - data-assets-webapi-cron
+  register: data-assets_pm2
+  tags: 
+     - data-assets
+- debug: var=data-assets_pm2
+  tags: 
+     - data-assets
+
+- name: restart audience process
+  shell: /usr/local/bin/pm2 restart {{item}} 
+  with_items:
+    - audience-webapi
+    - audience-webapi-sync
+  register: audience_pm2
+  tags: 
+     - audience
+- debug: var=audience_pm2
+  tags: 
+     - audience
+
+- name: restart crm process
+  shell: /usr/local/bin/pm2 restart {{item}} 
+  with_items:
+    - crm-webapi
+    - crm-webapi-local
+  register: crm_pm2
+  tags: 
+     - crm
+- debug: var=crm_pm2
+  tags: 
+     - crm
+
+- name: restart ba process
+  shell: /usr/local/bin/pm2 restart {{item}} 
+  with_items:
+    - ba-studio-webapi
+    - ba-studio-webapi-cron
+  register: ba_pm2
+  tags: 
+     - ba
+- debug: var=ba_pm2
+  tags: 
+     - ba
+
+- name: restart media-chooser process
+  shell: /usr/local/bin/pm2 restart {{item}} 
+  with_items:
+    - mc-webapi
+    - mc-sync
+  register: mc_pm2
+  tags: 
+     - mc
+- debug: var=mc_pm2
+  tags: 
+     - mc
+
+
+- name: verify upm process status
+  shell: sleep 5s && /root/.nvm/versions/node/v6.0.0/bin/pm2 show upm-webapi | grep -e 'status' -e 'uptime' -e '│ restarts' 
+  register: upm_status
+  tags: 
+     - upm
+- debug: var=upm_status.stdout_lines
+  tags: 
+     - upm
+
+
+- name: verify analytics process status
+  shell: sleep 5s && /root/.nvm/versions/node/v6.0.0/bin/pm2 show analytics-webapi | grep -e 'status' -e 'uptime' -e '│ restarts' 
+  register: analytics_status
+  tags: 
+     - analytics
+- debug: var=analytics_status.stdout_lines
+  tags: 
+     - analytics
+
+- name: verify data-assets process status
+  shell: sleep 5s && /root/.nvm/versions/node/v6.0.0/bin/pm2 show data-assets-webapi | grep -e 'status' -e 'uptime' -e '│ restarts' 
+  register: data-assets_status
+  tags: 
+     - data-assets
+- debug: var=data-assets_status.stdout_lines
+  tags: 
+     - data-assets
+
+- name: verify audience process status
+  shell: sleep 5s && /root/.nvm/versions/node/v6.0.0/bin/pm2 show audience-webapi | grep -e 'status' -e 'uptime' -e '│ restarts' 
+  register: audience_status
+  tags: 
+     - audience
+- debug: var=audience_status.stdout_lines
+  tags: 
+     - audience
+
+- name: verify crm process status
+  shell: sleep 5s && /root/.nvm/versions/node/v6.0.0/bin/pm2 show crm-webapi | grep -e 'status' -e 'uptime' -e '│ restarts'  
+  register: crm_status
+  tags: 
+     - crm
+- debug: var=crm_status.stdout_lines
+  tags: 
+     - crm
+
+- name: verify ba process status
+  shell: sleep 5s && /root/.nvm/versions/node/v6.0.0/bin/pm2 show ba-studio-webapi | grep -e 'status' -e 'uptime' -e '│ restarts'  
+  register: ba_status
+  tags: 
+     - ba
+- debug: var=ba_status.stdout_lines
+  tags: 
+     - ba
+
+- name: verify mc process status
+  shell: sleep 5s && /root/.nvm/versions/node/v6.0.0/bin/pm2 show mc-webapi | grep -e 'status' -e 'uptime' -e '│ restarts'  
+  register: mc_status
+  tags: 
+     - mc
+- debug: var=mc_status.stdout_lines
+  tags: 
+     - mc
 
 - name: Archive deploy file
   shell: \mv {{ item }} $(date '+%F_%H')
@@ -436,7 +584,7 @@
      - mongo
 
 
-- name: Get config file
+- name: get config file
   fetch: src={{ data_suite_dir }}/{{ item }}/{{ webapi_conf }} dest=/mnt/ansible/config/{{ item }}_config.production.js flat=yes #validate_checksum=yes
   with_items:
     - analytics
@@ -452,4 +600,3 @@
 #- name: Restart webapi by pm2 
 #  shell: /usr/local/bin/pm2 ls 
 #  #shell: pm2 restart analytics-sync analytics-webapi
-#

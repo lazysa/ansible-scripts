@@ -25,16 +25,19 @@
 
 - name: Add access log privileges
   shell: setfacl -Rm u:{{ ssh_user }}:rx {{ item }}
+  ignore_errors: yes
   with_items:
     - /mnt/logs
     - /mnt/webapps/audience_api/log
   tags:
     - log_install
+ 
 
 
 
 - name: Revoke access log privileges
   shell: setfacl -Rx u:{{ ssh_user }} {{ item }}
+  ignore_errors: yes
   with_items:
     - /mnt/logs
     - /mnt/webapps/audience_api/log

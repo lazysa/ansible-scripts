@@ -12,11 +12,13 @@
 #- hosts: iresearch_web
 #- hosts: mc_web
 #- hosts: pilot_report
-- hosts: pilot_web
+#- hosts: pilot_web
 #- hosts: pilot_web-clone
-#- hosts: web_dev-clone
+#- hosts: iresearch_web
+- hosts: web_dev-clone
 #- hosts: amersports_web-clone
 #- hosts: amersports_web
+#- hosts: amersports
 #- hosts: pilot_web
 #- hosts: malogic_web
   gather_facts: no
