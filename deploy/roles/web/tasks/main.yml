@@ -405,7 +405,7 @@
      - ba
 
 - name: restart upm process
-  shell: /usr/local/bin/pm2 restart {{item}} 
+  shell: /root/.nvm/versions/node/v6.0.0/bin/pm2 restart {{item}} 
   with_items:
     - upm-webapi
     - upm-webapi-local
@@ -417,7 +417,7 @@
      - upm
 
 - name: restart analytics process
-  shell: /usr/local/bin/pm2 restart {{item}} 
+  shell: /root/.nvm/versions/node/v6.0.0/bin/pm2 restart {{item}} 
   with_items:
     - analytics-webapi
     - analytics-sync
@@ -429,7 +429,7 @@
      - analytics
 
 - name: restart data-assets process
-  shell: /usr/local/bin/pm2 restart {{item}} 
+  shell: /root/.nvm/versions/node/v6.0.0/bin/pm2 restart {{item}} 
   with_items:
     - data-assets-webapi
     - data-assets-webapi-cron
@@ -441,7 +441,7 @@
      - data-assets
 
 - name: restart audience process
-  shell: /usr/local/bin/pm2 restart {{item}} 
+  shell: /root/.nvm/versions/node/v6.0.0/bin/pm2 restart {{item}} 
   with_items:
     - audience-webapi
     - audience-webapi-sync
@@ -453,7 +453,7 @@
      - audience
 
 - name: restart crm process
-  shell: /usr/local/bin/pm2 restart {{item}} 
+  shell: /root/.nvm/versions/node/v6.0.0/bin/pm2 restart {{item}} 
   with_items:
     - crm-webapi
     - crm-webapi-local
@@ -465,7 +465,7 @@
      - crm
 
 - name: restart ba process
-  shell: /usr/local/bin/pm2 restart {{item}} 
+  shell: /root/.nvm/versions/node/v6.0.0/bin/pm2 restart {{item}} 
   with_items:
     - ba-studio-webapi
     - ba-studio-webapi-cron
@@ -477,7 +477,7 @@
      - ba
 
 - name: restart media-chooser process
-  shell: /usr/local/bin/pm2 restart {{item}} 
+  shell: /root/.nvm/versions/node/v6.0.0/bin/pm2 restart {{item}} 
   with_items:
     - mc-webapi
     - mc-sync
@@ -598,5 +598,5 @@
      - cp_config
 ##  shell: \cp -ar {{ dmp_deploy_dir }}/$(date '+%F_%H')/data-suite/analytics/webapi/analytics-20170920/* {{ dmp_dir }}/data-suite/analytics/webapi
 #- name: Restart webapi by pm2 
-#  shell: /usr/local/bin/pm2 ls 
+#  shell: /root/.nvm/versions/node/v6.0.0/bin/pm2 ls 
 #  #shell: pm2 restart analytics-sync analytics-webapi
