@@ -19,53 +19,53 @@
      - always
 
 - name: Backup audience_api
-  shell: \cp -ar {{ dmp_dir }}/audience_api {{ dmp_bak_dir }}/$(date '+%F_%H')/
+  shell: cp -arf {{ dmp_dir }}/audience_api {{ dmp_bak_dir }}/$(date '+%F_%H')/
  # copy: src={{ dmp_dir }}/audience_api dest={{ dmp_bak_dir }}/$(date '+%F_%H')/audience_api remote_src=yes 
   tags: 
      - audience_api
 
 - name: Backup data-assets-report-api
-  shell: \cp -ar {{ dmp_dir }}/data-assets-report-api {{ dmp_bak_dir }}/$(date '+%F_%H')/
+  shell: cp -arf {{ dmp_dir }}/data-assets-report-api {{ dmp_bak_dir }}/$(date '+%F_%H')/
   tags:
      - data-assets-report-api
 
 - name: Backup datapi
-  shell: \cp -ar {{ dmp_dir }}/datapi {{ dmp_bak_dir }}/$(date '+%F_%H')/
+  shell: cp -arf {{ dmp_dir }}/datapi {{ dmp_bak_dir }}/$(date '+%F_%H')/
   tags:
      - dataapi
 
 - name: Backup analytics 
-  shell: \cp -ar {{ data_suite_dir }}/analytics {{ dmp_bak_dir }}/$(date '+%F_%H')/data-suite/
+  shell: cp -arf {{ data_suite_dir }}/analytics {{ dmp_bak_dir }}/$(date '+%F_%H')/data-suite/
   tags:
      - analytics 
 
 - name: Backup data-assets
-  shell: \cp -ar {{ data_suite_dir }}/data-assets {{ dmp_bak_dir }}/$(date '+%F_%H')/data-suite/
+  shell: cp -arf {{ data_suite_dir }}/data-assets {{ dmp_bak_dir }}/$(date '+%F_%H')/data-suite/
   tags:
      - data-assets
 
 - name: Backup upm 
-  shell: \cp -ar {{ data_suite_dir }}/upm {{ dmp_bak_dir }}/$(date '+%F_%H')/data-suite/
+  shell: cp -arf {{ data_suite_dir }}/upm {{ dmp_bak_dir }}/$(date '+%F_%H')/data-suite/
   tags:
      - upm
 
 - name: Backup audience 
-  shell: \cp -ar {{ data_suite_dir }}/audience {{ dmp_bak_dir }}/$(date '+%F_%H')/data-suite/
+  shell: cp -arf {{ data_suite_dir }}/audience {{ dmp_bak_dir }}/$(date '+%F_%H')/data-suite/
   tags:
-     - audience 
+     - audience
 
 - name: Backup crm 
-  shell: \cp -ar {{ data_suite_dir }}/crm {{ dmp_bak_dir }}/$(date '+%F_%H')/data-suite/
+  shell: cp -arf {{ data_suite_dir }}/crm {{ dmp_bak_dir }}/$(date '+%F_%H')/data-suite/
   tags:
      - crm 
 
 - name: Backup ba
-  shell: \cp -ar {{ data_suite_dir }}/ba-studio {{ dmp_bak_dir }}/$(date '+%F_%H')/data-suite/
+  shell: cp -arf {{ data_suite_dir }}/ba-studio {{ dmp_bak_dir }}/$(date '+%F_%H')/data-suite/
   tags:
      - ba
 
 - name: Backup media-chooser
-  shell: \cp -ar {{ data_suite_dir }}/media-chooser {{ dmp_bak_dir }}/$(date '+%F_%H')/data-suite/
+  shell: cp -arf {{ data_suite_dir }}/media-chooser {{ dmp_bak_dir }}/$(date '+%F_%H')/data-suite/
   tags:
      - mc
 
@@ -152,48 +152,48 @@
 
 # analytics config
 - name: Copy analytics last config file
-  shell: \cp -ar {{ dmp_bak_dir }}/$(date '+%F_%H')/data-suite/analytics/{{ webapi_conf }} {{ data_suite_dir }}/analytics/{{ webapi_conf }}
+  shell: cp -af {{ dmp_bak_dir }}/$(date '+%F_%H')/data-suite/analytics/{{ webapi_conf }} {{ data_suite_dir }}/analytics/{{ webapi_conf }}
   tags:
      - config
      - analytics 
 
 # audience config
 - name: Copy audience last config file
-  shell: \cp -ar {{ dmp_bak_dir }}/$(date '+%F_%H')/data-suite/audience/{{ webapi_conf }} {{ data_suite_dir }}/audience/{{ webapi_conf }}
+  shell: cp -af {{ dmp_bak_dir }}/$(date '+%F_%H')/data-suite/audience/{{ webapi_conf }} {{ data_suite_dir }}/audience/{{ webapi_conf }}
   tags:
      - config
-     - audience 
+     - audience
 
 # data-assets  config
 - name: Copy data-assets last config file
-  shell: \cp -ar {{ dmp_bak_dir }}/$(date '+%F_%H')/data-suite/data-assets/{{ webapi_conf }} {{ data_suite_dir }}/data-assets/{{ webapi_conf }}
+  shell: cp -af {{ dmp_bak_dir }}/$(date '+%F_%H')/data-suite/data-assets/{{ webapi_conf }} {{ data_suite_dir }}/data-assets/{{ webapi_conf }}
   tags:
      - config
      - data-assets 
 
 # upm config
 - name: Copy upm last config file
-  shell: \cp -ar {{ dmp_bak_dir }}/$(date '+%F_%H')/data-suite/upm/{{ webapi_conf }} {{ data_suite_dir }}/upm/{{ webapi_conf }}
+  shell: cp -af {{ dmp_bak_dir }}/$(date '+%F_%H')/data-suite/upm/{{ webapi_conf }} {{ data_suite_dir }}/upm/{{ webapi_conf }}
   tags:
      - config
      - upm
 
 # crm config
 - name: Copy crm last config file
-  shell: \cp -ar {{ dmp_bak_dir }}/$(date '+%F_%H')/data-suite/crm/{{ webapi_conf }} {{ data_suite_dir }}/crm/{{ webapi_conf }}
+  shell: cp -af {{ dmp_bak_dir }}/$(date '+%F_%H')/data-suite/crm/{{ webapi_conf }} {{ data_suite_dir }}/crm/{{ webapi_conf }}
   tags:
      - config
      - crm
 
 # ba config
 - name: Copy ba last config file
-  shell: \cp -ar {{ dmp_bak_dir }}/$(date '+%F_%H')/data-suite/ba-studio/{{ webapi_conf }} {{ data_suite_dir }}/ba-studio/{{ webapi_conf }}
+  shell: cp -af {{ dmp_bak_dir }}/$(date '+%F_%H')/data-suite/ba-studio/{{ webapi_conf }} {{ data_suite_dir }}/ba-studio/{{ webapi_conf }}
   tags:
      - config
      - ba
 
 - name: Copy media-chooser last config file
-  shell: \cp -ar {{ dmp_bak_dir }}/$(date '+%F_%H')/data-suite/media-chooser/{{ webapi_conf }} {{ data_suite_dir }}/media-chooser/{{ webapi_conf }}
+  shell: cp -af {{ dmp_bak_dir }}/$(date '+%F_%H')/data-suite/media-chooser/{{ webapi_conf }} {{ data_suite_dir }}/media-chooser/{{ webapi_conf }}
   tags:
      - config
      - mc
@@ -335,163 +335,185 @@
     - webapp/index.html
   tags: 
      - mc
+     - webapi
 - debug: var=mc_date
   tags: 
      - mc
+     - webapi
 
 - name: update upm npm packages
-  shell: /root/.nvm/versions/node/v6.0.0/bin/npm i
+  shell: /root/.nvm/versions/node/v6.0.0/bin/node /root/.nvm/versions/node/v6.0.0/bin/npm i
   register: upm_npm
+  ignore_errors: yes
   args:
     chdir: /mnt/webapps/data-suite/upm/webapi
   tags: 
-     - config
+     - webapi
      - upm_npm
 - debug: var=upm_npm
   tags: 
-     - config
+     - webapi
      - upm_npm
      
 - name: update audience npm packages
-  shell: /root/.nvm/versions/node/v6.0.0/bin/npm i
+  shell: /root/.nvm/versions/node/v6.0.0/bin/node /root/.nvm/versions/node/v6.0.0/bin/npm i
   register: audience_npm
+  ignore_errors: yes
   args:
     chdir: /mnt/webapps/data-suite/audience/webapi
   tags: 
-     - config
+     - webapi
      - audience
 - debug: var=audience_npm
   tags: 
-     - config
+     - webapi
      - audience
 
 - name: update data-assets npm packages
-  shell: /root/.nvm/versions/node/v6.0.0/bin/npm i
+  shell: /root/.nvm/versions/node/v6.0.0/bin/node /root/.nvm/versions/node/v6.0.0/bin/npm i
   register: data-assets_npm
+  ignore_errors: yes
   args:
     chdir: /mnt/webapps/data-suite/data-assets/webapi
   tags: 
-     - config
+     - webapi
      - data-assets 
 - debug: var=data-assets_npm
   tags: 
-     - config
+     - webapi
      - data-assets
 
 - name: update crm npm packages
-  shell: /root/.nvm/versions/node/v6.0.0/bin/npm i
+  shell: /root/.nvm/versions/node/v6.0.0/bin/node /root/.nvm/versions/node/v6.0.0/bin/npm i
   register: crm_npm
+  ignore_errors: yes
   args:
     chdir: /mnt/webapps/data-suite/crm/webapi
   tags: 
-     - config
+     - webapi
      - crm 
 - debug: var=crm_npm
   tags: 
-     - config
+     - webapi
      - crm
 
 - name: update ba npm packages
-  shell: /root/.nvm/versions/node/v6.0.0/bin/npm i
+  shell: /root/.nvm/versions/node/v6.0.0/bin/node /root/.nvm/versions/node/v6.0.0/bin/npm i
   register: ba_npm
+  ignore_errors: yes
   args:
     chdir: /mnt/webapps/data-suite/ba-studio/webapi
   tags: 
-     - config
+     - webapi
      - ba 
 - debug: var=ba_npm
   tags: 
-     - config
+     - webapi
      - ba
 
 - name: restart upm process
-  shell: /root/.nvm/versions/node/v6.0.0/bin/pm2 restart {{item}} 
+  shell: /root/.nvm/versions/node/v6.0.0/bin/node /root/.nvm/versions/node/v6.0.0/bin/pm2 restart {{item}} 
   with_items:
     - upm-webapi
     - upm-webapi-local
   register: upm_pm2
   tags: 
+     - webapi
      - upm
 - debug: var=upm_pm2
   tags: 
+     - webapi
      - upm
 
 - name: restart analytics process
-  shell: /root/.nvm/versions/node/v6.0.0/bin/pm2 restart {{item}} 
+  shell: /root/.nvm/versions/node/v6.0.0/bin/node /root/.nvm/versions/node/v6.0.0/bin/pm2 restart {{item}} 
   with_items:
     - analytics-webapi
     - analytics-sync
   register: analytics_pm2
   tags: 
+     - webapi
      - analytics
 - debug: var=analytics_pm2
   tags: 
+     - webapi
      - analytics
 
 - name: restart data-assets process
-  shell: /root/.nvm/versions/node/v6.0.0/bin/pm2 restart {{item}} 
+  shell: /root/.nvm/versions/node/v6.0.0/bin/node /root/.nvm/versions/node/v6.0.0/bin/pm2 restart {{item}} 
   with_items:
     - data-assets-webapi
     - data-assets-webapi-cron
   register: data-assets_pm2
   tags: 
+     - webapi
      - data-assets
 - debug: var=data-assets_pm2
   tags: 
+     - webapi
      - data-assets
 
 - name: restart audience process
-  shell: /root/.nvm/versions/node/v6.0.0/bin/pm2 restart {{item}} 
+  shell: /root/.nvm/versions/node/v6.0.0/bin/node /root/.nvm/versions/node/v6.0.0/bin/node /root/.nvm/versions/node/v6.0.0/bin/pm2 restart {{item}} 
   with_items:
     - audience-webapi
     - audience-webapi-sync
   register: audience_pm2
   tags: 
      - audience
+     - webapi
 - debug: var=audience_pm2
   tags: 
      - audience
+     - webapi
 
 - name: restart crm process
-  shell: /root/.nvm/versions/node/v6.0.0/bin/pm2 restart {{item}} 
+  shell: /root/.nvm/versions/node/v6.0.0/bin/node /root/.nvm/versions/node/v6.0.0/bin/pm2 restart {{item}} 
   with_items:
     - crm-webapi
     - crm-webapi-local
   register: crm_pm2
   tags: 
      - crm
+     - webapi
 - debug: var=crm_pm2
   tags: 
      - crm
+     - webapi
 
 - name: restart ba process
-  shell: /root/.nvm/versions/node/v6.0.0/bin/pm2 restart {{item}} 
+  shell: /root/.nvm/versions/node/v6.0.0/bin/node /root/.nvm/versions/node/v6.0.0/bin/pm2 restart {{item}} 
   with_items:
     - ba-studio-webapi
     - ba-studio-webapi-cron
   register: ba_pm2
   tags: 
      - ba
+     - webapi
 - debug: var=ba_pm2
   tags: 
      - ba
+     - webapi
 
 - name: restart media-chooser process
-  shell: /root/.nvm/versions/node/v6.0.0/bin/pm2 restart {{item}} 
+  shell: /root/.nvm/versions/node/v6.0.0/bin/node /root/.nvm/versions/node/v6.0.0/bin/pm2 restart {{item}} 
   with_items:
     - mc-webapi
     - mc-sync
   register: mc_pm2
   tags: 
      - mc
+     - webapi
 - debug: var=mc_pm2
   tags: 
      - mc
+     - webapi
 
 
 - name: verify upm process status
-  shell: sleep 5s && /root/.nvm/versions/node/v6.0.0/bin/pm2 show upm-webapi | grep -e 'status' -e 'uptime' -e '│ restarts' 
+  shell: sleep 5s && /root/.nvm/versions/node/v6.0.0/bin/node /root/.nvm/versions/node/v6.0.0/bin/pm2 show upm-webapi | grep -e 'status' -e 'uptime' -e '│ restarts' 
   register: upm_status
+  ignore_errors: yes
   tags: 
      - upm
 - debug: var=upm_status.stdout_lines
@@ -500,8 +522,9 @@
 
 
 - name: verify analytics process status
-  shell: sleep 5s && /root/.nvm/versions/node/v6.0.0/bin/pm2 show analytics-webapi | grep -e 'status' -e 'uptime' -e '│ restarts' 
+  shell: sleep 5s && /root/.nvm/versions/node/v6.0.0/bin/node /root/.nvm/versions/node/v6.0.0/bin/pm2 show analytics-webapi | grep -e 'status' -e 'uptime' -e '│ restarts' 
   register: analytics_status
+  ignore_errors: yes
   tags: 
      - analytics
 - debug: var=analytics_status.stdout_lines
@@ -509,8 +532,9 @@
      - analytics
 
 - name: verify data-assets process status
-  shell: sleep 5s && /root/.nvm/versions/node/v6.0.0/bin/pm2 show data-assets-webapi | grep -e 'status' -e 'uptime' -e '│ restarts' 
+  shell: sleep 5s && /root/.nvm/versions/node/v6.0.0/bin/node /root/.nvm/versions/node/v6.0.0/bin/pm2 show data-assets-webapi | grep -e 'status' -e 'uptime' -e '│ restarts' 
   register: data-assets_status
+  ignore_errors: yes
   tags: 
      - data-assets
 - debug: var=data-assets_status.stdout_lines
@@ -518,8 +542,9 @@
      - data-assets
 
 - name: verify audience process status
-  shell: sleep 5s && /root/.nvm/versions/node/v6.0.0/bin/pm2 show audience-webapi | grep -e 'status' -e 'uptime' -e '│ restarts' 
+  shell: sleep 5s && /root/.nvm/versions/node/v6.0.0/bin/node /root/.nvm/versions/node/v6.0.0/bin/pm2 show audience-webapi | grep -e 'status' -e 'uptime' -e '│ restarts' 
   register: audience_status
+  ignore_errors: yes
   tags: 
      - audience
 - debug: var=audience_status.stdout_lines
@@ -527,8 +552,9 @@
      - audience
 
 - name: verify crm process status
-  shell: sleep 5s && /root/.nvm/versions/node/v6.0.0/bin/pm2 show crm-webapi | grep -e 'status' -e 'uptime' -e '│ restarts'  
+  shell: sleep 5s && /root/.nvm/versions/node/v6.0.0/bin/node /root/.nvm/versions/node/v6.0.0/bin/pm2 show crm-webapi | grep -e 'status' -e 'uptime' -e '│ restarts'  
   register: crm_status
+  ignore_errors: yes
   tags: 
      - crm
 - debug: var=crm_status.stdout_lines
@@ -536,8 +562,9 @@
      - crm
 
 - name: verify ba process status
-  shell: sleep 5s && /root/.nvm/versions/node/v6.0.0/bin/pm2 show ba-studio-webapi | grep -e 'status' -e 'uptime' -e '│ restarts'  
+  shell: sleep 5s && /root/.nvm/versions/node/v6.0.0/bin/node /root/.nvm/versions/node/v6.0.0/bin/pm2 show ba-studio-webapi | grep -e 'status' -e 'uptime' -e '│ restarts'  
   register: ba_status
+  ignore_errors: yes
   tags: 
      - ba
 - debug: var=ba_status.stdout_lines
@@ -545,8 +572,9 @@
      - ba
 
 - name: verify mc process status
-  shell: sleep 5s && /root/.nvm/versions/node/v6.0.0/bin/pm2 show mc-webapi | grep -e 'status' -e 'uptime' -e '│ restarts'  
+  shell: sleep 5s && /root/.nvm/versions/node/v6.0.0/bin/node /root/.nvm/versions/node/v6.0.0/bin/pm2 show mc-webapi | grep -e 'status' -e 'uptime' -e '│ restarts'  
   register: mc_status
+  ignore_errors: yes
   tags: 
      - mc
 - debug: var=mc_status.stdout_lines

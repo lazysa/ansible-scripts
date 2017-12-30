@@ -44,3 +44,7 @@ data_assets_report_api_dir: /mnt/webapps/data-assets-report-api/
 webapi_conf: webapi/src/config/config.production.js
 
 
+#node_bin: /root/.nvm/versions/node/v6.0.0/bin/node
+
+#node_bin: /root/.nvm/versions/node/v6.0.0/bin/node
+
