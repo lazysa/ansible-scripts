@@ -371,14 +371,14 @@
 
 - name: update data-assets npm packages
   shell: /root/.nvm/versions/node/v6.0.0/bin/node /root/.nvm/versions/node/v6.0.0/bin/npm i
-  register: data-assets_npm
+  register: dataassets_npm
   ignore_errors: yes
   args:
     chdir: /mnt/webapps/data-suite/data-assets/webapi
   tags: 
      - webapi
      - data-assets 
-- debug: var=data-assets_npm
+- debug: var=dataassets_npm
   tags: 
      - webapi
      - data-assets
@@ -444,11 +444,11 @@
   with_items:
     - data-assets-webapi
     - data-assets-webapi-cron
-  register: data-assets_pm2
+  register: dataassets_pm2
   tags: 
      - webapi
      - data-assets
-- debug: var=data-assets_pm2
+- debug: var=dataassets_pm2
   tags: 
      - webapi
      - data-assets
@@ -533,11 +533,11 @@
 
 - name: verify data-assets process status
   shell: sleep 5s && /root/.nvm/versions/node/v6.0.0/bin/node /root/.nvm/versions/node/v6.0.0/bin/pm2 show data-assets-webapi | grep -e 'status' -e 'uptime' -e '│ restarts' 
-  register: data-assets_status
+  register: dataassets_status
   ignore_errors: yes
   tags: 
      - data-assets
-- debug: var=data-assets_status.stdout_lines
+- debug: var=dataassets_status.stdout_lines
   tags: 
      - data-assets
 

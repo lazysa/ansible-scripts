@@ -9,6 +9,6 @@
 # Dmp deploy file
 dmp_deploy_dir: /home/xu.chen/deploy/
 
-ssh_user: fang.xu
+ssh_user: qixin.zhang
 
 sudo_conf: /etc/sudoers
