@@ -1,0 +1,9 @@
+*.sql
+*.zip
+*.gz
+*.tgz
+*.swp
+*.bak
+config
+deploy/roles/web/files/web_webapps.zip.*
+deploy/site.retry
